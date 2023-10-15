@@ -15,7 +15,7 @@
 const http = require('http')
 const express = require('express')
 // const { DataSource } = require('typeorm')
-const { modified , deleteThreads,threadLike } = require('./services/postSerices')
+const { modified , deleteThreads,threadLike, threadLikeDelete } = require('./services/postSerices')
 const mysql = require('mysql');
 //const appDataSource = new DataSource({
 //  type: 'mysql',
@@ -112,6 +112,7 @@ app.get ('/threads/getAllThreads', getAllThreads)
 app.post('/threads/modifiedThread', modified)
 app.post("/users/creatingPost", creatingPost)
 app.post("/threadLike", threadLike)
+app.post("/threadLikeDelete", threadLikeDelete)
 
 const server = http.createServer(app)
 server.listen(8000, () => {

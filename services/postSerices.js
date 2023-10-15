@@ -29,6 +29,7 @@ const deleteThreads = async(req,res) => {
   `)
   res.status(200).json({'message' : 'postingDeleted'})
  }
+
 // 좋아요 누르기 종아요 를 누르면 db에 저장해야 하는 내용?
 // 
  const threadLike = async (req, res) =>{
@@ -42,4 +43,16 @@ const deleteThreads = async(req,res) => {
 
  }
 
-module.exports = { modified , deleteThreads, threadLike };
+ // 좋아요 취소
+
+ const threadLikeDelete = async (req, res) => {
+  const userId = req.body.user;
+  const threadId = req.body.thread
+
+  await appDataSource.query(`
+  delete from thread_likes where user_id = ('${userId}') and thread_id = ('${threadId}')
+  `)
+  res.status(200).json({'message' : 'LikeDeleted!'})
+ }
+
+module.exports = { modified , deleteThreads, threadLike, threadLikeDelete };
