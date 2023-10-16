@@ -1,5 +1,51 @@
 const { appDataSource } = require('./appdatasource')
 
+// 유저 회원가입
+
+const signup = async (req, res) => {
+  // const requestBody = req.body
+
+  const userName = req.body.name;
+  const userEmail = req.body.email;
+  const userPassoword = req.body.passoword;
+
+  const userData = await appDataSource.query(`
+      insert into users (
+        nickname,
+        passoword,
+        email
+      )
+      values (
+      '${userName}',
+      '${userPassoword}', 
+      '${userEmail}'
+      )
+    `)
+
+  console.log(userData)
+
+  res.status(200).json({ 'message': 'signup-success' })
+}
+
+// 유저 게시글 등록
+
+const creatingPost = async (req, res) => {
+  const userId = req.body.user_id;
+  const userContent = req.body.content;
+
+  const userData1 = await appDataSource.query(`
+  insert into threads (
+    user_id,
+    content
+  )values (
+    '${userId}',
+    '${userContent}'
+  )
+`)
+  console.log(userData1 )
+  res.status(200).json({ 'meesage': 'postCreated!' })
+}
+
 
 // 1. 게시물 수정
 const modified = async (req,res) => {
@@ -18,6 +64,7 @@ const modified = async (req,res) => {
 
   res.status(200).json({'data': data})
 }
+
 
 // 게시물 삭제하기
 
@@ -55,4 +102,5 @@ const deleteThreads = async(req,res) => {
   res.status(200).json({'message' : 'LikeDeleted!'})
  }
 
-module.exports = { modified , deleteThreads, threadLike, threadLikeDelete };
+module.exports = 
+{ modified , deleteThreads, threadLike, threadLikeDelete, signup, creatingPost };
